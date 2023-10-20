@@ -11,13 +11,17 @@
     background: #00bff9;
     padding: 30px;
   }
+
+.link{
+    color: #333;
+  }
   .contact-container{
     position: relative;
-    max-width: 800px;
+    max-width: 1500px; /* Increase the max-width value to make it wider */
     width: 100%;
     background: #fff;
     padding: 40px 30px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     perspective: 2700px;
   }
   .contact-container .cover{

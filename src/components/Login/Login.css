@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e800f9;
+    background: #00bff9;
     padding: 30px;
   }
   .contact-container{
@@ -52,7 +52,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background: #e800f9;
+    background: #00bff9;
     opacity: 0.5;
     z-index: 12;
   }
@@ -116,7 +116,7 @@
     bottom: 0;
     height: 3px;
     width: 25px;
-    background: #e800f9;
+    background: #00bff9;
   }
   .forms .signup-form  .contact-title:before{
     width: 20px;
@@ -145,11 +145,11 @@
   }
   .form-content .input-box input:focus,
   .form-content .input-box input:valid{
-    border-color: #e800f9;
+    border-color: #00bff9;
   }
   .form-content .input-box .login-icon{
     position: absolute;
-    color: #e800f9;
+    color: #00bff9;
     font-size: 17px;
   }
   .forms .form-content .text{
@@ -169,7 +169,7 @@
   }
   .forms .form-content .button input{
     color: #fff;
-    background: #e800f9;
+    background: #00bff9;
     border-radius: 6px;
     padding: 0;
     cursor: pointer;

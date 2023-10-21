@@ -6,15 +6,27 @@ import {FaUser} from 'react-icons/fa'
 import {FcGoogle} from 'react-icons/fc';
 import { auth } from "../../firebase"
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const login = () => {
 
     const [email, setEmail] = useState('');
     const [paassword, setPassword] = useState('');
+    const [name, setName] = useState('');
 
     const signIn = (e) => {
         e.preventDefault();
-        signInWithEmailAndPasswordauth(auth, email, paassword)
+        signInWithEmailAndPassword(auth, email, paassword)
+        .then((userCredential) => {
+            console.log(userCredential)
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
+    const signUp = (e) => {
+        e.preventDefault();
+        createUserWithEmailAndPassword(auth, name, email, paassword)
         .then((userCredential) => {
             console.log(userCredential)
         }).catch((error) => {
@@ -45,17 +57,29 @@ const login = () => {
         <div className="form-content">
             <div className="login-form">
             <div className="contact-title">Login</div>
-            <form action="#">
+            <form onSubmit={signIn}>
                 <div className="input-boxes">
                 <div className="input-box">
                     {/* <i className="fas fa-envelope"></i> */}
                     <BsFillEnvelopeFill className='login-icon'/>
-                    <input type="text" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        required 
+                    />
                 </div>
                 <div className="input-box">
                     {/* <i className="fas fa-lock"></i> */}
                     <BiSolidLockAlt className='login-icon'/>
-                    <input type="password" placeholder="Enter your password" value={paassword} onChange={(e) => setPassword(e.target.value)} required />
+                    <input 
+                        type="password" 
+                        placeholder="Enter your password" 
+                        value={paassword} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        required 
+                    />
                 </div>
                 <div className="text">
                     <a href="#" className='link'>Forgot password?</a>
@@ -65,7 +89,7 @@ const login = () => {
                     <button  className='google-signin'> <FcGoogle className='g-icon'/> Google Signin</button>
                 </div>
                 <div className="button input-box">
-                    <button type="submit" value="Submit">SUBMIT</button>
+                    <button type="submit" className='btn' value="Submit">SUBMIT</button>
                 </div>
                 <div className="text sign-up-text">
                     Don't have an account? <label className='link' htmlFor="flip">Sign up now</label>
@@ -75,19 +99,34 @@ const login = () => {
             </div>
             <div className="signup-form">
             <div className="contact-title">Signup</div>
-            <form action="#">
+            <form onSubmit={signUp}>
                 <div className="input-boxes">
                 <div className="input-box">
                     <FaUser className="login-icon"/>
-                    <input type="text" placeholder="Enter your name" required />
+                    <input 
+                        type="text" 
+                        placeholder="Enter your name" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required />
                 </div>
                 <div className="input-box">
                     <BsFillEnvelopeFill className='login-icon'/>
-                    <input type="text" placeholder="Enter your email" required />
+                    <input 
+                        type="text" 
+                        placeholder="Enter your email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required />
                 </div>
                 <div className="input-box">
                     <BiSolidLockAlt className='login-icon'/>
-                    <input type="password" placeholder="Enter your password" required />
+                    <input 
+                        type="password" 
+                        placeholder="Enter your password" 
+                        value={paassword}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required />
                 </div>
                 <div className="button input-box">
                     <input type="submit" value="Submit" />

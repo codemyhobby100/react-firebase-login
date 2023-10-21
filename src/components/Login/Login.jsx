@@ -3,13 +3,25 @@ import './Login.css';
 import {BsFillEnvelopeFill} from 'react-icons/bs';
 import {BiSolidLockAlt} from 'react-icons/bi';
 import {FaUser} from 'react-icons/fa'
-import {FcGoogle} from 'react-icons/fc'
-
+import {FcGoogle} from 'react-icons/fc';
+import { auth } from "../../firebase"
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const login = () => {
 
     const [email, setEmail] = useState('');
-    const [paassword, setPassword] = useState('')
+    const [paassword, setPassword] = useState('');
+
+    const signIn = (e) => {
+        e.preventDefault();
+        signInWithEmailAndPasswordauth(auth, email, paassword)
+        .then((userCredential) => {
+            console.log(userCredential)
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
   return (
     <div className="contact-container">
         <input type="checkbox" id="flip" />

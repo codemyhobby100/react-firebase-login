@@ -1,18 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Login.css';
 import {BsFillEnvelopeFill} from 'react-icons/bs';
 import {BiSolidLockAlt} from 'react-icons/bi';
-import {FaUser} from 'react-icons/fa'
+// import {FaUser} from 'react-icons/fa'
 import {FcGoogle} from 'react-icons/fc';
-import { auth } from "../../firebase"
+import { auth, provider } from "../../firebase"
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
+import Profile from './Profile';
+import Profilepage from '../Profile/Profilepage';
 
 const login = () => {
 
     const [email, setEmail] = useState('');
     const [paassword, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [value, setValue] = useState('')
+    // const [name, setName] = useState('');
 
     const signIn = (e) => {
         e.preventDefault();
@@ -26,13 +30,24 @@ const login = () => {
 
     const signUp = (e) => {
         e.preventDefault();
-        createUserWithEmailAndPassword(auth, name, email, paassword)
+        createUserWithEmailAndPassword(auth, email, paassword)
         .then((userCredential) => {
             console.log(userCredential)
         }).catch((error) => {
             console.log(error);
         })
     }
+    
+    const handleClick = ()=>{
+        signInWithPopup(auth,provider).then((data) => {
+            setValue(data.user.email)
+            localStorage.setItem("email", data.user.email)
+        })
+    }
+
+    useEffect(() => {
+        setValue(localStorage.getItem('email'))
+    })
 
   return (
     <div className="contact-container">
@@ -85,8 +100,12 @@ const login = () => {
                     <a href="#" className='link'>Forgot password?</a>
                     {/* <p className='point' onClick={handleSignIn}>google signin</p> */}
                 </div>
-                <div className="google-btn">                        
-                    <button  className='google-signin'> <FcGoogle className='g-icon'/> Google Signin</button>
+                <div className="google-btn">   
+                    {value?<Profile/>:                     
+                    <button onClick={handleClick} className='google-signin'> 
+                        <FcGoogle className='g-icon'/> Google Signin
+                    </button>
+                    }   
                 </div>
                 <div className="button input-box">
                     <button type="submit" className='btn' value="Submit">SUBMIT</button>
@@ -101,7 +120,7 @@ const login = () => {
             <div className="contact-title">Signup</div>
             <form onSubmit={signUp}>
                 <div className="input-boxes">
-                <div className="input-box">
+                {/* <div className="input-box">
                     <FaUser className="login-icon"/>
                     <input 
                         type="text" 
@@ -109,7 +128,7 @@ const login = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required />
-                </div>
+                </div> */}
                 <div className="input-box">
                     <BsFillEnvelopeFill className='login-icon'/>
                     <input 
@@ -129,7 +148,7 @@ const login = () => {
                         required />
                 </div>
                 <div className="button input-box">
-                    <input type="submit" value="Submit" />
+                    <button type="submit" className='btn' value="Submit">SUBMIT</button>
                 </div>
                 <div className="text sign-up-text">
                     Already have an account? <label htmlFor="flip">Login now</label>

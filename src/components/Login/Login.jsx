@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, {useEffect, useState, Component } from 'react';
 import './Login.css';
 import {BsFillEnvelopeFill} from 'react-icons/bs';
 import {BiSolidLockAlt} from 'react-icons/bi';
 // import {FaUser} from 'react-icons/fa'
 import {FcGoogle} from 'react-icons/fc';
 import { auth, provider } from "../../firebase"
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 import Profilepage from '../Profile/Profilepage';
@@ -16,7 +15,6 @@ const login = () => {
 
     const [email, setEmail] = useState('');
     const [paassword, setPassword] = useState('');
-    const [value, setValue] = useState('')
     const navigate = useNavigate()
     // const [name, setName] = useState('');
 
@@ -40,16 +38,22 @@ const login = () => {
         })
     }
     
-    const handleClick = ()=>{
+    const handleClick = (e)=>{
+        e.preventDefault();
         signInWithPopup(auth,provider).then((data) => {
-            setValue(data.user.email)
-            navigate('/Profilepage')
+            const credential = GoogleAuthProvider.credentialFromResult(data);
+            // The signed-in user info.
+            const user = data.user  
+            console.log(credential) 
+            console.log(user) 
+            navigate('/profilePage')
+           
         })
     }
 
-    useEffect(() => {
-        setValue(localStorage.getItem('email'))
-    })
+    // useEffect(() => {
+    //     setValue(localStorage.getItem('email'))
+    // })
 
   return (
     <div className="contact-container">

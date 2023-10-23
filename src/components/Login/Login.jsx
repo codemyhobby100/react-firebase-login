@@ -8,6 +8,7 @@ import { auth, provider } from "../../firebase"
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { signInWithPopup } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 import Profilepage from '../Profile/Profilepage';
 
@@ -16,6 +17,7 @@ const login = () => {
     const [email, setEmail] = useState('');
     const [paassword, setPassword] = useState('');
     const [value, setValue] = useState('')
+    const navigate = useNavigate()
     // const [name, setName] = useState('');
 
     const signIn = (e) => {
@@ -24,7 +26,7 @@ const login = () => {
         .then((userCredential) => {
             console.log(userCredential)
         }).catch((error) => {
-            console.log(error);
+            console.log(error.message);
         })
     }
 
@@ -41,7 +43,7 @@ const login = () => {
     const handleClick = ()=>{
         signInWithPopup(auth,provider).then((data) => {
             setValue(data.user.email)
-            localStorage.setItem("email", data.user.email)
+            navigate('/Profilepage')
         })
     }
 
@@ -100,12 +102,10 @@ const login = () => {
                     <a href="#" className='link'>Forgot password?</a>
                     {/* <p className='point' onClick={handleSignIn}>google signin</p> */}
                 </div>
-                <div className="google-btn">   
-                    {value?<Profile/>:                     
+                <div className="google-btn">                  
                     <button onClick={handleClick} className='google-signin'> 
                         <FcGoogle className='g-icon'/> Google Signin
-                    </button>
-                    }   
+                    </button> 
                 </div>
                 <div className="button input-box">
                     <button type="submit" className='btn' value="Submit">SUBMIT</button>

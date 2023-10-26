@@ -36,7 +36,7 @@ const Profilepage = () => {
           <p>UX/UI Designer</p>
           <p>anna@example.com</p>
 
-          <button onClick={handleSignOut}>Logout</button>
+          <button className='log-out-btn' onClick={handleSignOut}>Logout</button>
 
           <ul className="about">
             <li><span>4,073</span>Followers</li>

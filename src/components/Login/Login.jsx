@@ -8,8 +8,7 @@ import {FcGoogle} from 'react-icons/fc';
 import { auth, provider } from "../../firebase"
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import Profile from './Profile';
-import Profilepage from '../Profile/Profilepage';
+import profilepage from '../Profile/Profilepage';
 
 const login = () => {
 
@@ -22,7 +21,8 @@ const login = () => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, paassword)
         .then((userCredential) => {
-            console.log(userCredential)
+            console.log("success")
+            navigate('/profilepage')
         }).catch((error) => {
             console.log(error.message);
         })
@@ -33,6 +33,7 @@ const login = () => {
         createUserWithEmailAndPassword(auth, email, paassword)
         .then((userCredential) => {
             console.log(userCredential)
+            navigate('/profilepage')
         }).catch((error) => {
             console.log(error);
         })
@@ -46,7 +47,7 @@ const login = () => {
             const user = data.user  
             console.log(credential) 
             console.log(user) 
-            navigate('/profilePage')
+            navigate('/profilepage')
            
         })
     }
@@ -113,7 +114,7 @@ const login = () => {
                         </button> 
                     </div>
                     <div className="button input-box">
-                        <button type="submit" className='btn' value="Submit">SUBMIT</button>
+                        <button onClick={signUp} type="submit" className='btn' value="Submit">SUBMIT</button>
                     </div>
                     <div className="text sign-up-text">
                         Don't have an account? <label className='link' htmlFor="flip">Sign up now</label>
@@ -153,7 +154,7 @@ const login = () => {
                             required />
                     </div>
                     <div className="button input-box">
-                        <button type="submit" className='btn' value="Submit">SUBMIT</button>
+                        <button onClick={signUp} type="submit" className='btn' value="Submit">SUBMIT</button>
                     </div>
                     <div className="text sign-up-text">
                         Already have an account? <label htmlFor="flip">Login now</label>

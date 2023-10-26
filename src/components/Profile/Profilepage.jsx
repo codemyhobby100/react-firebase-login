@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Profilepage.css'
 import {FaTwitter, FaInstagram, FaFacebookF, FaLinkedin} from "react-icons/fa"
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
-const Profilepage = () => (
+const Profilepage = () => {
 
+    const auth = getAuth();
+    const navigate = useNavigate()
+
+    const handleSignOut = () => {
+        signOut(auth)
+          .then(() => {
+            // Sign-out successful.
+            console.log('User signed out');
+            navigate('/')
+          })
+          .catch((error) => {
+            // An error happened.
+            console.error('Sign-out error', error);
+          });
+      };
+
+
+    return(
     <div className="header__wrapper">
       <header></header>
       <div className="cols__container">
@@ -12,9 +32,11 @@ const Profilepage = () => (
             <img src="/profile/user.jpeg" alt="Anna Smith" />
             <span></span>
           </div>
-          <h2>Anna Smith</h2>
+          <h2>Sam</h2>
           <p>UX/UI Designer</p>
           <p>anna@example.com</p>
+
+          <button onClick={handleSignOut}>Logout</button>
 
           <ul className="about">
             <li><span>4,073</span>Followers</li>
@@ -58,5 +80,6 @@ const Profilepage = () => (
       </div>
     </div>
 )
+}
 
 export default Profilepage

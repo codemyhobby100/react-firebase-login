@@ -46,33 +46,19 @@ const login = () => {
             const credential = GoogleAuthProvider.credentialFromResult(data);
             // The signed-in user info.
             const user = data.user  
+
+            if (user) {
+                const userRef = doc(db, 'users', user.uid);
+                await setDoc(userRef, {
+                  email: user.email,
+                });
+              }
             console.log(credential) 
             console.log(user) 
             navigate('/profilepage')
            
         })
     }
-
-    const handleLogin = async () => {
-        try {
-          // ...
-      
-          const userRef = doc(db, 'users', user.uid);
-          await setDoc(userRef, {
-            email: user.email,
-            // Add other user details here
-          });
-      
-          // Redirect to the user's profile page (use a router or navigation method)
-        } catch (error) {
-          // Handle login error
-          console.error('Login failed', error);
-        }
-      };
-
-    // useEffect(() => {
-    //     setValue(localStorage.getItem('email'))
-    // })
 
   return (
     <div className="wrapper">

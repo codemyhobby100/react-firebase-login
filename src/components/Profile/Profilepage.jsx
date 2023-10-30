@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
-const Profilepage = ({user}) => {
+const Profilepage = () => {
 
     const auth = getAuth();
     const navigate = useNavigate()
@@ -27,17 +27,19 @@ const Profilepage = ({user}) => {
       
       const [userData, setUserData] = useState(null);
 
-      useEffect(() => {
-        const fetchUserData = async () => {
-          const userRef = doc(db, 'users', user.uid);
-          const userSnapshot = await getDoc(userRef);
-          if (userSnapshot.exists()) {
-            setUserData(userSnapshot.data());
-          }
-        };
-    
-        fetchUserData();
-      }, [user.uid]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const user = auth.currentUser;
+      const userRef = doc(db, 'users', user.uid);
+      const userSnapshot = await getDoc(userRef);
+
+      if (userSnapshot.exists()) {
+        setUserData(userSnapshot.data());
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
     return(
     <div className="header__wrapper">
@@ -50,10 +52,11 @@ const Profilepage = ({user}) => {
           </div>
           <h2>Sam</h2>
 
-          {userData && (
-        <div>
-          <p>Email: {userData.email}</p>
-        </div>
+        {userData && (
+            <div>
+            <p>Email: {userData.email}</p>
+            {/* Display other user details */}
+            </div>
         )}
           <p>anna@example.com</p>
 

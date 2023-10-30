@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Profilepage.css'
 import {FaTwitter, FaInstagram, FaFacebookF, FaLinkedin} from "react-icons/fa"
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { db } from '../../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
-const Profilepage = () => {
+const Profilepage = ({user}) => {
 
     const auth = getAuth();
     const navigate = useNavigate()
@@ -22,6 +24,20 @@ const Profilepage = () => {
           });
       };
 
+      
+      const [userData, setUserData] = useState(null);
+
+      useEffect(() => {
+        const fetchUserData = async () => {
+          const userRef = doc(db, 'users', user.uid);
+          const userSnapshot = await getDoc(userRef);
+          if (userSnapshot.exists()) {
+            setUserData(userSnapshot.data());
+          }
+        };
+    
+        fetchUserData();
+      }, [user.uid]);
 
     return(
     <div className="header__wrapper">
@@ -33,7 +49,12 @@ const Profilepage = () => {
             <span></span>
           </div>
           <h2>Sam</h2>
-          <p>UX/UI Designer</p>
+
+          {userData && (
+        <div>
+          <p>Email: {userData.email}</p>
+        </div>
+        )}
           <p>anna@example.com</p>
 
           <button className='log-out-btn' onClick={handleSignOut}>Logout</button>

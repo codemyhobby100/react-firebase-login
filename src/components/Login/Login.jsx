@@ -5,7 +5,8 @@ import {BsFillEnvelopeFill} from 'react-icons/bs';
 import {BiSolidLockAlt} from 'react-icons/bi';
 // import {FaUser} from 'react-icons/fa'
 import {FcGoogle} from 'react-icons/fc';
-import { auth, provider } from "../../firebase"
+import { auth, db, provider } from "../../firebase"
+import { doc, setDoc } from 'firebase/firestore';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import profilepage from '../Profile/Profilepage';
@@ -51,6 +52,23 @@ const login = () => {
            
         })
     }
+
+    const handleLogin = async () => {
+        try {
+          // ...
+      
+          const userRef = doc(db, 'users', user.uid);
+          await setDoc(userRef, {
+            email: user.email,
+            // Add other user details here
+          });
+      
+          // Redirect to the user's profile page (use a router or navigation method)
+        } catch (error) {
+          // Handle login error
+          console.error('Login failed', error);
+        }
+      };
 
     // useEffect(() => {
     //     setValue(localStorage.getItem('email'))
@@ -126,15 +144,6 @@ const login = () => {
                 <div className="contact-title">Signup</div>
                 <form onSubmit={signUp}>
                     <div className="input-boxes">
-                    {/* <div className="input-box">
-                        <FaUser className="login-icon"/>
-                        <input 
-                            type="text" 
-                            placeholder="Enter your name" 
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required />
-                    </div> */}
                     <div className="input-box">
                         <BsFillEnvelopeFill className='login-icon'/>
                         <input 
